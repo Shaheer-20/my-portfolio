@@ -48,6 +48,7 @@
             filter: blur(80px);
             opacity: 0.3;
             animation: float 20s infinite ease-in-out;
+            will-change: transform, opacity; /* Optimization: Hardware accelerate orb animation */
         }
 
         .orb-1 {
@@ -103,6 +104,7 @@
             background: rgba(102, 126, 234, 0.5);
             border-radius: 50%;
             animation: particle-float 15s infinite linear;
+            will-change: transform, opacity; /* Optimization: Hardware accelerate particles */
         }
 
         @keyframes particle-float {
@@ -161,6 +163,7 @@
             transition: all 0.15s ease;
             transform: translate(-50%, -50%);
             mix-blend-mode: difference;
+            will-change: transform; /* Optimization: Hardware accelerate cursor */
         }
 
         .cursor-follower {
@@ -173,6 +176,7 @@
             z-index: 9998;
             transition: all 0.3s ease;
             transform: translate(-50%, -50%);
+            will-change: transform; /* Optimization: Hardware accelerate cursor follower */
         }
 
         /* Navigation - Hidden */
@@ -360,6 +364,7 @@
             margin-bottom: 4rem;
             font-weight: 500;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         /* Work Section */
@@ -378,6 +383,7 @@
         .project-card {
             cursor: pointer;
             opacity: 0;
+            transform: translateY(30px); /* Initial state for animation */
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             text-decoration: none;
@@ -456,6 +462,7 @@
             margin-bottom: 0.75rem;
             transition: color 0.3s ease;
             line-height: 1.2;
+            /* Animation initial state (set in JS batch) */
         }
 
         .project-description {
@@ -464,6 +471,7 @@
             line-height: 1.6;
             margin-bottom: 1rem;
             opacity: 0.9;
+            /* Animation initial state (set in JS batch) */
         }
 
         .project-meta {
@@ -473,6 +481,7 @@
             text-transform: uppercase;
             margin-bottom: 0.5rem;
             opacity: 0.7;
+            /* Animation initial state (set in JS batch) */
         }
 
         .project-link {
@@ -533,6 +542,7 @@
             background: var(--border);
             transform: translateX(-50%);
             opacity: 0;
+            will-change: opacity; /* Optimization */
         }
 
         .timeline-line::after {
@@ -545,12 +555,13 @@
             height: var(--fill-height, 0px);
             background: var(--text-primary);
             transition: height 0.1s ease;
+            will-change: height; /* Optimization */
         }
 
         .timeline-item {
             position: relative;
             margin-bottom: 8rem;
-            opacity: 0;
+            opacity: 0; /* Initial state for animation */
             display: flex;
             align-items: center;
             gap: 4rem;
@@ -572,6 +583,7 @@
             color: var(--text-primary);
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
+            /* Animation initial state (set in JS batch) */
         }
 
         .timeline-item-title {
@@ -580,12 +592,14 @@
             font-weight: 400;
             margin-bottom: 1rem;
             letter-spacing: -0.02em;
+            /* Animation initial state (set in JS batch) */
         }
 
         .timeline-item-description {
             font-size: 1.125rem;
             line-height: 1.8;
             color: var(--text-secondary);
+            /* Animation initial state (set in JS batch) */
         }
 
         .timeline-dot {
@@ -599,7 +613,7 @@
             border: 3px solid var(--text-primary);
             z-index: 2;
             opacity: 0;
-            scale: 0;
+            scale: 0; /* Initial state for animation */
         }
 
         .timeline-dot::before {
@@ -655,6 +669,7 @@
             letter-spacing: -0.02em;
             margin-bottom: 3rem;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .about-description {
@@ -663,6 +678,7 @@
             color: var(--text-secondary);
             margin-bottom: 2rem;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .stats {
@@ -674,6 +690,7 @@
 
         .stat-item {
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .stat-number {
@@ -704,6 +721,7 @@
 
         .skill-category {
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .skill-category h3 {
@@ -745,6 +763,7 @@
             line-height: 1;
             margin-bottom: 2rem;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .contact p {
@@ -753,6 +772,7 @@
             margin-bottom: 3rem;
             line-height: 1.7;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .email-link {
@@ -765,6 +785,7 @@
             letter-spacing: 0.02em;
             transition: opacity 0.3s ease;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -781,6 +802,7 @@
             gap: 2rem;
             justify-content: center;
             opacity: 0;
+            transform: translateY(20px); /* Initial state for animation */
         }
 
         .social-links a {
@@ -860,13 +882,13 @@
             .timeline-item {
                 flex-direction: column !important;
                 gap: 2rem;
-                transform: none !important;
+                transform: none !important; /* Mobile Fix: Override GSAP transform */
             }
 
             .timeline-item-content {
                 max-width: 100%;
-                text-align: left;
-                padding-left: 4rem;
+                text-align: left; /* Mobile Fix: Align text */
+                padding-left: 4rem; /* Mobile Fix: Add padding to avoid overlap */
             }
 
             .timeline-line {
@@ -930,13 +952,14 @@
                 flex-direction: column !important;
                 gap: 1.5rem;
                 margin-bottom: 4rem;
-                transform: none !important;
+                transform: none !important; /* Mobile Fix: Override GSAP transform */
+
             }
 
             .timeline-item-content {
                 max-width: 100%;
                 text-align: left;
-                padding-left: 3rem;
+                padding-left: 3rem; /* Mobile Fix: Add padding to avoid overlap */
             }
 
             .timeline-line {
@@ -1035,7 +1058,7 @@
             .email-link {
                 font-size: 1rem;
             }
-
+            
             .social-links {
                 flex-wrap: wrap;
                 gap: 1.5rem;
@@ -1071,16 +1094,16 @@
                 width: 250px;
                 height: 250px;
             }
-
+            
             .orb-3 {
                 width: 200px;
                 height: 200px;
             }
 
             .menu-links a {
-                font-size: clamp(2rem, 12vw, 4rem);
+                font-size: clamp(2rem, 10vw, 5rem);
             }
-
+            
             .menu-links li {
                 margin: 1.5rem 0;
             }
@@ -1191,7 +1214,7 @@
             .stat-number {
                 font-size: 2rem;
             }
-
+            
             .stat-label {
                 font-size: 0.8125rem;
             }
@@ -1218,7 +1241,7 @@
                 font-size: 1rem;
                 margin-bottom: 1.75rem;
             }
-
+            
             .email-link {
                 font-size: 0.9375rem;
             }
@@ -1240,7 +1263,7 @@
             .menu-links a {
                 font-size: clamp(1.75rem, 14vw, 3.5rem);
             }
-
+            
             .menu-links li {
                 margin: 1.25rem 0;
             }
@@ -1330,7 +1353,7 @@
             <div class="hero-content">
                 <h1>
                     <span>Mahammad Shaheer</span><br>
-                    <span style="font-size: 0.6em; font-weight: 300;">Full Stack Developer | AI & Cloud Enthusiast</span>
+                    <span style="font-size: 0.6em; font-weight: 300;">Full Stack Developer</span>
                 </h1>
                 <p>I craft AI-powered and scalable web applications with clean architecture and delightful user experiences. My focus is on full-stack development, modern JavaScript frameworks, and cloud-based intelligent systems that make a real impact.</p>
                 <a href="#work" class="cta">
@@ -1348,7 +1371,7 @@
             <div class="projects-grid">
                 <a href="https://bigdeal.property" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/bigdeal.jpg" alt="Big Deal Property">
+                        <img src="assets/images/bigdeal.jpg" alt="Big Deal Property" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Big+Deal'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Big Deal Property</h3>
@@ -1366,7 +1389,7 @@
 
                 <a href="https://lexjurislaw.in" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/lexjurislaw.jpg" alt="Lex Juris Law">
+                        <img src="assets/images/lexjurislaw.jpg" alt="Lex Juris Law" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Lex+Juris'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Lex Juris Law</h3>
@@ -1384,7 +1407,7 @@
 
                 <a href="https://gdedutech.com" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/gdedutech.jpg" alt="GD Edu Tech">
+                        <img src="assets/images/gdedutech.jpg" alt="GD Edu Tech" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=GD+Edu+Tech'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">GD Edu Tech</h3>
@@ -1402,7 +1425,7 @@
 
                 <a href="https://goldendream.in" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/golden-rmb-coins-cloth-bag.jpg" alt="Golden Dream">
+                        <img src="assets/images/golden-rmb-coins-cloth-bag.jpg" alt="Golden Dream" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Golden+Dream'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Golden Dream</h3>
@@ -1420,7 +1443,7 @@
 
                 <a href="https://liyasinternational.com/" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/liyasimage.jpg" alt="Liyas International">
+                        <img src="assets/images/liyasimage.jpg" alt="Liyas International" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Intl'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Liyas International</h3>
@@ -1438,7 +1461,7 @@
 
                 <a href="https://liyasgoldanddiamonds.com/" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/closeup-shot-two-diamond-rings-golden-surface.jpg" alt="Liyas Gold & Diamonds">
+                        <img src="assets/images/closeup-shot-two-diamond-rings-golden-surface.jpg" alt="Liyas Gold & Diamonds" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Gold'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Liyas Gold & Diamonds</h3>
@@ -1462,7 +1485,7 @@
             <div class="projects-grid">
                 <a href="https://github.com/Shaheer-20/flask-spam-classifier" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/email-ML.jpg" alt="Flask Spam Classifier">
+                        <img src="assets/images/email-ML.jpg" alt="Flask Spam Classifier" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Spam+Classifier'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Flask Spam Classifier</h3>
@@ -1478,7 +1501,7 @@
                 </a>
                 <a href="https://github.com/Shaheer-20" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/ML.jpg" alt="SafeVision">
+                        <img src="assets/images/ML.jpg" alt="SafeVision" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=SafeVision'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">SafeVision</h3>
@@ -1495,7 +1518,7 @@
                 </a>
                 <a href="https://github.com/Shaheer-20/ai-document-reader" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/universaldcument.jpg" alt="AI Document Reader">
+                        <img src="assets/images/universaldcument.jpg" alt="AI Document Reader" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+Doc+Reader'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">AI Document Reader</h3>
@@ -1512,7 +1535,7 @@
 
                 <a href="https://github.com/Shaheer-20/ai-todo-list" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/ai-chip-artificial-intelligence-future-technology-innovation.jpg" alt="AI To-Do List">
+                        <img src="assets/images/ai-chip-artificial-intelligence-future-technology-innovation.jpg" alt="AI To-Do List" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+To-Do'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">AI To-Do List</h3>
@@ -1529,7 +1552,7 @@
 
                 <a href="https://github.com/Shaheer-20/ml-notification-classifier" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/notification-ML..jpg" alt="ML Notification Classifier">
+                        <img src="assets/images/notification-ML..jpg" alt="ML Notification Classifier" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Notification+ML'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">ML Notification Classifier</h3>
@@ -1588,6 +1611,26 @@
                 <div class="section-header">About Me</div>
                 <p class="about-text">I'm a full-stack developer focused on blending AI and software engineering to build systems that solve real problems.</p>
                 <p class="about-description">From intelligent document readers to biometric security platforms, my work sits at the intersection of creativity, logic, and impact. I love clean code, smooth animations, and turning ideas into functional products that actually matter.</p>
+                <p class="about-description">When I'm not coding, I'm exploring new AI models, contributing to open-source, or planning my next big project.</p>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Years of Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">AI/ML Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Technologies</div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1669,75 +1712,69 @@
 
         // Create particles
         const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particlesContainer.appendChild(particle);
+        if (particlesContainer) {
+            let particleHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const style = `left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 15}s; animation-duration: ${Math.random() * 10 + 10}s;`;
+                particleHTML += `<div class="particle" style="${style}"></div>`;
+            }
+            particlesContainer.innerHTML = particleHTML;
         }
 
         // Custom Cursor
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
 
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.1
+        if (cursor && cursorFollower) {
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.1
+                });
+                gsap.to(cursorFollower, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.3
+                });
             });
-            gsap.to(cursorFollower, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.3
-            });
-        });
 
-        // Hover effects for links and buttons
-        const hoverElements = document.querySelectorAll('a, button, .project-card');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                gsap.to(cursor, {
-                    scale: 1.5,
-                    duration: 0.3
+            // Hover effects for links and buttons
+            const hoverElements = document.querySelectorAll('a, button, .project-card');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(cursor, { scale: 1.5, duration: 0.3 });
+                    gsap.to(cursorFollower, { scale: 1.5, duration: 0.3 });
                 });
-                gsap.to(cursorFollower, {
-                    scale: 1.5,
-                    duration: 0.3
-                });
-            });
-            el.addEventListener('mouseleave', () => {
-                gsap.to(cursor, {
-                    scale: 1,
-                    duration: 0.3
-                });
-                gsap.to(cursorFollower, {
-                    scale: 1,
-                    duration: 0.3
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(cursor, { scale: 1, duration: 0.3 });
+                    gsap.to(cursorFollower, { scale: 1, duration: 0.3 });
                 });
             });
-        });
+        }
 
         // Menu toggle
         const menuBtn = document.getElementById('menuBtn');
         const menu = document.getElementById('menu');
         const menuLinks = document.querySelectorAll('.menu-link');
 
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-            menuBtn.textContent = menu.classList.contains('active') ? 'Close' : 'Menu';
-        });
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.remove('active');
-                menuBtn.textContent = 'Menu';
+        if (menuBtn && menu && menuLinks.length > 0) {
+            menuBtn.addEventListener('click', () => {
+                menu.classList.toggle('active');
+                menuBtn.textContent = menu.classList.contains('active') ? 'Close' : 'Menu';
             });
-        });
 
-        // Initial animations
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    menuBtn.textContent = 'Menu';
+                });
+            });
+        }
+
+        // --- OPTIMIZED ANIMATIONS ---
+
+        // Initial page load animations
         const tl = gsap.timeline();
         
         tl.to('.floating-menu-btn', {
@@ -1767,78 +1804,60 @@
             ease: 'power3.out'
         }, '-=0.6');
 
-        // Section headers animation
-        gsap.utils.toArray('.section-header').forEach(header => {
-            gsap.to(header, {
+        // Optimization: Batch simple fade-in-up animations
+        const simpleFadeUp = (batch) => {
+            gsap.to(batch, {
                 opacity: 1,
                 y: 0,
                 duration: 1,
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 80%',
-                }
-            });
-        });
-
-        // Project cards animation
-        gsap.utils.toArray('.project-card').forEach((card, index) => {
-            const title = card.querySelector('.project-title');
-            const description = card.querySelector('.project-description');
-            const meta = card.querySelector('.project-meta');
-            
-            // Set initial states
-            gsap.set([title, description, meta], {
-                opacity: 0,
-                y: 20
-            });
-
-            // Animate card entrance
-            gsap.to(card, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.1,
                 ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                }
+                stagger: 0.1,
             });
+        };
 
-            // Animate content elements
-            const cardTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                }
-            });
-
-            cardTl.to(title, {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: 'power2.out'
-            }, index * 0.1 + 0.2)
-            .to(meta, {
-                opacity: 1,
-                y: 0,
-                duration: 0.5,
-                ease: 'power2.out'
-            }, '-=0.3')
-            .to(description, {
-                opacity: 1,
-                y: 0,
-                duration: 0.7,
-                ease: 'power2.out'
-            }, '-=0.4');
+        ScrollTrigger.batch('.section-header, .stat-item, .skill-category, .about-text, .about-description', {
+            start: 'top 85%',
+            onEnter: batch => simpleFadeUp(batch),
         });
+
+        // Optimization: Batch contact form animations
+        ScrollTrigger.batch('.contact h2, .contact p, .email-link, .social-links', {
+            start: 'top 85%',
+            onEnter: batch => simpleFadeUp(batch),
+        });
+
+        // Optimization: Batch project card animations
+        ScrollTrigger.batch('.project-card', {
+            start: 'top 85%',
+            onEnter: batch => {
+                gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: 'power3.out',
+                    onComplete: () => {
+                        // Animate card content after card is visible
+                        batch.forEach(card => {
+                            const cardContent = card.querySelectorAll('.project-title, .project-meta, .project-description');
+                            gsap.set(cardContent, { opacity: 0, y: 20 }); // Set initial state just-in-time
+                            gsap.to(cardContent, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.7,
+                                ease: 'power2.out',
+                                stagger: 0.1
+                            });
+                        });
+                    }
+                });
+            }
+        });
+
 
         // Journey Timeline Animation
         const timelineLine = document.getElementById('timelineLine');
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        const timelineDots = document.querySelectorAll('.timeline-dot');
-
-        if (timelineLine && timelineItems.length > 0) {
+        if (timelineLine) {
             // Animate timeline line appearance
             gsap.to(timelineLine, {
                 opacity: 1,
@@ -1857,206 +1876,59 @@
                 scrub: 1,
                 onUpdate: (self) => {
                     const progress = self.progress;
-                    if (timelineLine) {
-                        const height = timelineLine.offsetHeight;
-                        const fillHeight = height * progress;
-                        const afterElement = timelineLine;
-                        if (afterElement) {
-                            afterElement.style.setProperty('--fill-height', `${fillHeight}px`);
-                        }
-                    }
-                }
-            });
-
-            // Animate timeline items
-            timelineItems.forEach((item, index) => {
-                const xOffset = index % 2 === 0 ? -80 : 80;
-                
-                gsap.set(item, {
-                    x: xOffset,
-                    opacity: 0
-                });
-
-                gsap.to(item, {
-                    opacity: 1,
-                    x: 0,
-                    duration: 1.2,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: item,
-                        start: 'top 85%',
-                    }
-                });
-            });
-
-            // Animate timeline dots
-            timelineDots.forEach((dot, index) => {
-                gsap.set(dot, {
-                    scale: 0,
-                    opacity: 0
-                });
-
-                const dotTl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: dot,
-                        start: 'top 85%',
-                    }
-                });
-
-                dotTl.to(dot, {
-                    scale: 1,
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'back.out(1.7)',
-                    onComplete: () => {
-                        dot.classList.add('visible');
-                    }
-                })
-                .to(dot, {
-                    scale: 1.2,
-                    duration: 0.3,
-                    yoyo: true,
-                    repeat: 1,
-                    ease: 'power2.inOut'
-                }, '-=0.4');
-            });
-
-            // Animate timeline content elements
-            timelineItems.forEach((item, index) => {
-                const date = item.querySelector('.timeline-item-date');
-                const title = item.querySelector('.timeline-item-title');
-                const description = item.querySelector('.timeline-item-description');
-
-                if (date && title && description) {
-                    gsap.set([date, title, description], {
-                        opacity: 0,
-                        y: 20
-                    });
-
-                    const itemTl = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: item,
-                            start: 'top 85%',
-                        }
-                    });
-
-                    itemTl.to(date, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: 'power2.out'
-                    })
-                    .to(title, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: 'power2.out'
-                    }, '-=0.4')
-                    .to(description, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: 'power2.out'
-                    }, '-=0.4');
+                    const height = timelineLine.offsetHeight;
+                    const fillHeight = height * progress;
+                    timelineLine.style.setProperty('--fill-height', `${fillHeight}px`);
                 }
             });
         }
 
-        // About section animations
-        gsap.to('.about-text', {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            scrollTrigger: {
-                trigger: '.about-text',
-                start: 'top 80%',
+        // Optimization: Batch timeline item animations
+        ScrollTrigger.batch('.timeline-item', {
+            start: 'top 85%',
+            onEnter: batch => {
+                batch.forEach((item, index) => {
+                    const xOffset = index % 2 === 0 ? -80 : 80;
+                    gsap.set(item, { x: xOffset, opacity: 0 }); // Set initial state just-in-time
+                    gsap.to(item, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1.2,
+                        ease: 'power3.out',
+                        onComplete: () => {
+                            // Animate content inside
+                            const content = item.querySelectorAll('.timeline-item-date, .timeline-item-title, .timeline-item-description');
+                            gsap.set(content, { opacity: 0, y: 20 });
+                            gsap.to(content, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.8,
+                                ease: 'power2.out',
+                                stagger: 0.1
+                            });
+                        }
+                    });
+                });
             }
         });
 
-        gsap.utils.toArray('.about-description').forEach((p, index) => {
-            gsap.to(p, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.2,
-                scrollTrigger: {
-                    trigger: p,
-                    start: 'top 85%',
-                }
-            });
-        });
-
-        // Stats animation
-        gsap.utils.toArray('.stat-item').forEach((stat, index) => {
-            gsap.to(stat, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.15,
-                scrollTrigger: {
-                    trigger: stat,
-                    start: 'top 85%',
-                }
-            });
-        });
-
-        // Skills animation
-        gsap.utils.toArray('.skill-category').forEach((skill, index) => {
-            gsap.to(skill, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.1,
-                scrollTrigger: {
-                    trigger: skill,
-                    start: 'top 85%',
-                }
-            });
-        });
-
-        // Contact section animations
-        gsap.to('.contact h2', {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            scrollTrigger: {
-                trigger: '.contact h2',
-                start: 'top 80%',
+        // Optimization: Batch timeline dot animations
+        ScrollTrigger.batch('.timeline-dot', {
+            start: 'top 85%',
+            onEnter: batch => {
+                gsap.to(batch, {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'back.out(1.7)',
+                    stagger: 0.1,
+                    onComplete: function() {
+                        this.targets().forEach(dot => dot.classList.add('visible'));
+                    }
+                });
             }
         });
 
-        gsap.to('.contact p', {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            delay: 0.2,
-            scrollTrigger: {
-                trigger: '.contact p',
-                start: 'top 85%',
-            }
-        });
-
-        gsap.to('.email-link', {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            delay: 0.4,
-            scrollTrigger: {
-                trigger: '.email-link',
-                start: 'top 85%',
-            }
-        });
-
-        gsap.to('.social-links', {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            delay: 0.6,
-            scrollTrigger: {
-                trigger: '.social-links',
-                start: 'top 85%',
-            }
-        });
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2081,7 +1953,8 @@
                 trigger: 'body',
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 1
+                scrub: 1,
+                willChange: "transform" // Optimization
             }
         });
 
@@ -2092,7 +1965,8 @@
                 trigger: 'body',
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 1
+                scrub: 1,
+                willChange: "transform" // Optimization
             }
         });
 
@@ -2103,9 +1977,26 @@
                 trigger: 'body',
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 1
+                scrub: 1,
+                willChange: "transform" // Optimization
             }
         });
+
+        // Add error handling for broken images
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function() {
+                    // Check if a placeholder is already set to prevent loops
+                    if (!this.src.includes('placehold.co')) {
+                        const width = this.width > 0 ? this.width : 600;
+                        const height = this.height > 0 ? this.height : 338;
+                        const text = this.alt ? this.alt.replace(/\s+/g, '+') : 'Image';
+                        this.src = `https://placehold.co/${width}x${height}/f5f5f5/ccc?text=${text}`;
+                    }
+                });
+            });
+        });
+
     </script>
 </body>
 </html>
