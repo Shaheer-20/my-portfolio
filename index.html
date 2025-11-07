@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muhammad Shaheer - Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/images/bigdeal.jpg" imagesrcset="assets/images/bigdeal.jpg 1x" fetchpriority="high">
     <style>
         * {
             margin: 0;
@@ -142,6 +145,15 @@
             }
             100% {
                 transform: translate(50px, 50px);
+            }
+        }
+
+        /* Respect reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
             }
         }
 
@@ -394,6 +406,11 @@
             overflow: hidden;
             background: var(--bg-primary);
             border: 1px solid transparent;
+            will-change: transform, opacity; /* Perf: hint compositor */
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            contain: paint layout style; /* isolate rendering */
+            content-visibility: auto; /* skip rendering offscreen */
         }
 
         @media (hover: hover) {
@@ -417,8 +434,19 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; /* progressive fade */
+            filter: blur(12px); /* progressive blur */
+            transform: translateZ(0) scale(1.02); /* avoid paint jank on first render */
+            transition: opacity 0.5s ease, filter 0.6s ease, transform 0.6s ease, -webkit-filter 0.6s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             display: block;
+            will-change: transform; /* Perf: image hover scale */
+            backface-visibility: hidden;
+        }
+
+        .project-image img.is-loaded {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateZ(0) scale(1);
         }
 
         @media (hover: hover) {
@@ -1353,7 +1381,7 @@
             <div class="hero-content">
                 <h1>
                     <span>Muhammad Shaheer</span><br>
-                    <span style="font-size: 0.6em; font-weight: 300;">Full Stack Developer | AI & Cloud Enthusiast</span>
+                    <span style="font-size: 0.6em; font-weight: 300;">Full Stack Developer</span>
                 </h1>
                 <p>I craft AI-powered and scalable web applications with clean architecture and delightful user experiences. My focus is on full-stack development, modern JavaScript frameworks, and cloud-based intelligent systems that make a real impact.</p>
                 <a href="#work" class="cta">
@@ -1371,7 +1399,7 @@
             <div class="projects-grid">
                 <a href="https://bigdeal.property" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/bigdeal.jpg" alt="Big Deal Property" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Big+Deal'; this.onerror=null;">
+                        <img src="assets/images/bigdeal.jpg" alt="Big Deal Property" loading="eager" decoding="async" fetchpriority="high" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Big+Deal'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Big Deal Property</h3>
@@ -1389,7 +1417,7 @@
 
                 <a href="https://lexjurislaw.in" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/lexjurislaw.jpg" alt="Lex Juris Law" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Lex+Juris'; this.onerror=null;">
+                        <img src="assets/images/lexjurislaw.jpg" alt="Lex Juris Law" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Lex+Juris'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Lex Juris Law</h3>
@@ -1407,7 +1435,7 @@
 
                 <a href="https://gdedutech.com" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/gdedutech.jpg" alt="GD Edu Tech" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=GD+Edu+Tech'; this.onerror=null;">
+                        <img src="assets/images/gdedutech.jpg" alt="GD Edu Tech" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=GD+Edu+Tech'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">GD Edu Tech</h3>
@@ -1425,7 +1453,7 @@
 
                 <a href="https://goldendream.in" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/golden-rmb-coins-cloth-bag.jpg" alt="Golden Dream" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Golden+Dream'; this.onerror=null;">
+                        <img src="assets/images/golden-rmb-coins-cloth-bag.jpg" alt="Golden Dream" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Golden+Dream'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Golden Dream</h3>
@@ -1443,7 +1471,7 @@
 
                 <a href="https://liyasinternational.com/" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/liyasimage.jpg" alt="Liyas International" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Intl'; this.onerror=null;">
+                        <img src="assets/images/liyasimage.jpg" alt="Liyas International" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Intl'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Liyas International</h3>
@@ -1461,7 +1489,7 @@
 
                 <a href="https://liyasgoldanddiamonds.com/" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/closeup-shot-two-diamond-rings-golden-surface.jpg" alt="Liyas Gold & Diamonds" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Gold'; this.onerror=null;">
+                        <img src="assets/images/closeup-shot-two-diamond-rings-golden-surface.jpg" alt="Liyas Gold & Diamonds" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Liyas+Gold'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Liyas Gold & Diamonds</h3>
@@ -1485,7 +1513,7 @@
             <div class="projects-grid">
                 <a href="https://github.com/Shaheer-20/flask-spam-classifier" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/email-ML.jpg" alt="Flask Spam Classifier" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Spam+Classifier'; this.onerror=null;">
+                        <img src="assets/images/email-ML.jpg" alt="Flask Spam Classifier" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Spam+Classifier'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Flask Spam Classifier</h3>
@@ -1501,7 +1529,7 @@
                 </a>
                 <a href="https://github.com/Shaheer-20" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/ML.jpg" alt="SafeVision" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=SafeVision'; this.onerror=null;">
+                        <img src="assets/images/ML.jpg" alt="SafeVision" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=SafeVision'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">SafeVision</h3>
@@ -1518,7 +1546,7 @@
                 </a>
                 <a href="https://github.com/Shaheer-20/ai-document-reader" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/universaldcument.jpg" alt="AI Document Reader" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+Doc+Reader'; this.onerror=null;">
+                        <img src="assets/images/universaldcument.jpg" alt="AI Document Reader" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+Doc+Reader'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">AI Document Reader</h3>
@@ -1535,7 +1563,7 @@
 
                 <a href="https://github.com/Shaheer-20/ai-todo-list" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/ai-chip-artificial-intelligence-future-technology-innovation.jpg" alt="AI To-Do List" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+To-Do'; this.onerror=null;">
+                        <img src="assets/images/ai-chip-artificial-intelligence-future-technology-innovation.jpg" alt="AI To-Do List" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=AI+To-Do'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">AI To-Do List</h3>
@@ -1552,7 +1580,7 @@
 
                 <a href="https://github.com/Shaheer-20/ml-notification-classifier" target="_blank" rel="noopener noreferrer" class="project-card">
                     <div class="project-image">
-                        <img src="assets/images/notification-ML..jpg" alt="ML Notification Classifier" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Notification+ML'; this.onerror=null;">
+                        <img src="assets/images/notification-ML..jpg" alt="ML Notification Classifier" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='https://placehold.co/600x338/f5f5f5/ccc?text=Notification+ML'; this.onerror=null;">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">ML Notification Classifier</h3>
@@ -1694,8 +1722,8 @@
                 <a href="mailto:shaheervitla@gmail.com" class="email-link">shaheervitla@gmail.com</a>
 
                 <div class="social-links">
-                    <a href="https://github.com/Shaheer-20" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="https://linkedin.com/in/mahammad-shaheer-174533253" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/Shaheer-20" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GitHub</a>
+                    <a href="https://linkedin.com/in/muhammad-shaheer-174533253" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
                 </div>
             </div>
         </section>
@@ -1713,8 +1741,11 @@
         // Create particles
         const particlesContainer = document.getElementById('particles');
         if (particlesContainer) {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const count = prefersReduced ? 0 : (isMobile ? 12 : 24);
             let particleHTML = '';
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < count; i++) {
                 const style = `left: ${Math.random() * 100}%; animation-delay: ${Math.random() * 15}s; animation-duration: ${Math.random() * 10 + 10}s;`;
                 particleHTML += `<div class="particle" style="${style}"></div>`;
             }
@@ -1726,18 +1757,26 @@
         const cursorFollower = document.querySelector('.cursor-follower');
 
         if (cursor && cursorFollower) {
+            const quickToCursorX = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });
+            const quickToCursorY = gsap.quickTo(cursor, 'y', { duration: 0.1, ease: 'none' });
+            const quickToFollowerX = gsap.quickTo(cursorFollower, 'x', { duration: 0.3, ease: 'none' });
+            const quickToFollowerY = gsap.quickTo(cursorFollower, 'y', { duration: 0.3, ease: 'none' });
+
+            let rafPending = false;
+            let lastX = 0, lastY = 0;
             document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.1
+                lastX = e.clientX;
+                lastY = e.clientY;
+                if (rafPending) return;
+                rafPending = true;
+                requestAnimationFrame(() => {
+                    quickToCursorX(lastX);
+                    quickToCursorY(lastY);
+                    quickToFollowerX(lastX);
+                    quickToFollowerY(lastY);
+                    rafPending = false;
                 });
-                gsap.to(cursorFollower, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.3
-                });
-            });
+            }, { passive: true });
 
             // Hover effects for links and buttons
             const hoverElements = document.querySelectorAll('a, button, .project-card');
@@ -1829,24 +1868,30 @@
         // Optimization: Batch project card animations
         ScrollTrigger.batch('.project-card', {
             start: 'top 85%',
+            batchMax: 6, // fewer per frame for smoother paint
+            interval: 0.08,
+            once: true, // animate only once to avoid re-work
             onEnter: batch => {
                 gsap.to(batch, {
                     opacity: 1,
                     y: 0,
-                    duration: 1,
-                    stagger: 0.1,
+                    duration: 0.8,
+                    stagger: 0.05,
                     ease: 'power3.out',
+                    force3D: true,
                     onComplete: () => {
                         // Animate card content after card is visible
                         batch.forEach(card => {
                             const cardContent = card.querySelectorAll('.project-title, .project-meta, .project-description');
-                            gsap.set(cardContent, { opacity: 0, y: 20 }); // Set initial state just-in-time
+                            if (!cardContent.length) return;
+                            gsap.set(cardContent, { opacity: 0, y: 16 }); // small translate to reduce paint
                             gsap.to(cardContent, {
                                 opacity: 1,
                                 y: 0,
-                                duration: 0.7,
+                                duration: 0.6,
                                 ease: 'power2.out',
-                                stagger: 0.1
+                                stagger: 0.05,
+                                force3D: true
                             });
                         });
                     }
@@ -1984,7 +2029,8 @@
 
         // Add error handling for broken images
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('img').forEach(img => {
+            const allImages = document.querySelectorAll('img');
+            allImages.forEach(img => {
                 img.addEventListener('error', function() {
                     // Check if a placeholder is already set to prevent loops
                     if (!this.src.includes('placehold.co')) {
@@ -1994,6 +2040,16 @@
                         this.src = `https://placehold.co/${width}x${height}/f5f5f5/ccc?text=${text}`;
                     }
                 });
+
+                // Progressive loading: remove blur/fade when loaded
+                const markLoaded = () => {
+                    img.classList.add('is-loaded');
+                };
+                if (img.complete && img.naturalWidth > 0) {
+                    markLoaded();
+                } else {
+                    img.addEventListener('load', markLoaded, { once: true });
+                }
             });
         });
 
